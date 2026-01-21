@@ -424,7 +424,7 @@ begin
   PutLine('dn', @Entry.utf8dn[1], Length(Entry.utf8dn));
   for i := 0 to Entry.Attributes.Count - 1 do with Entry.Attributes[i] do
     for j := 0 to ValueCount - 1 do with Values[j] do
-      PutLine(Name, Data, DataSize);
+      PutLine(Name, Mormot.Core.Base.PBytes(Data), DataSize);
   WriteLine('');
 end;
 
