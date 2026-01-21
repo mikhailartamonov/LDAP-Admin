@@ -880,7 +880,7 @@ end;
 procedure ValueModOp(AValue: TLdapAttributeData; ModOP: TLDAPModifyOp);
 begin
   AValue.ModOp:=0;
-  Attributes.Clear;
+  if not(esNew in Entry.State) then Attributes.Clear;
   MakeAttrib(Avalue);
   if not(esNew in Entry.State) and not pld.Modify(Entry.dn, ModOP, Attributes.Items[0]) then
     LdapCheck(pld.ResultCode);
@@ -1323,7 +1323,7 @@ var
     if not IsText2(p,size) then
       result:=false
     else
-      result := FindInvalidUTF8Character(p, size,true) = -1;
+      result := FindInvalidUTF8Codepoint(p, size,true) = -1;
   end;
 
 begin
