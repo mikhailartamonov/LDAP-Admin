@@ -32,10 +32,11 @@ See [releases](../../releases)
 
 
 ## Requirements
-- Lazarus 1.6.2+, developed on version 2.0
-- compiler FPC 3.0.0+, developed on version 3.0.4
-- library libssl.so, libcrypto.so, for usign OpenSSL 1.0
+- Lazarus, developed on version 4.4
+- compiler FPC 3.2+, developed on version 3.2.2
 - library libssl.so.1.1, libcrypto.so.1.1, for usign OpenSSL 1.1
+- library libssl.so.3, libcrypto.so.3, for usign OpenSSL 3
+- mORMot2 library
 - Linux desktop
 
 
@@ -50,9 +51,12 @@ The recommended way to locate in linux is as follows,
 
 
 ## How to compile
-- install Lazarus (1.6 or above) from binaries - http://wiki.freepascal.org/Installing_Lazarus
-- get source code Ldap-Admin from https://github.com/ibv/LDAP-Admin
-- in Lazarus IDE, menu - File -> Open -> " 
+- install Lazarus from binaries - http://wiki.freepascal.org/Installing_Lazarus
+- git clone https://github.com/ibv/LDAP-Admin.git
+- cd LDAP-Admin
+- git submodule update --init --recursive   (If it's the first time you check-out a repo)
+- git submodule update --recursive --remote
+- in Lazarus IDE, menu - File -> Open -> "Source/LdapAdmin.lpi"
 - in Lazarus IDE, menu - Run -> F9 (run) or Ctrl+F9 (compile) or Shift+F9 (link) or "/usr/bin/lazbuild /path/to/LdapAdmin.lpi"
 
 
