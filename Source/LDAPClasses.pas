@@ -381,7 +381,9 @@ implementation
 {$I LdapAdmin.inc}
 
 
-uses Misc, Input, Dialogs, Cert, Gss, System.UITypes, mormot.net.dns;
+uses Misc, Input, Dialogs, Cert, Gss
+     {$IFDEF VER_XEH}, System.UITypes{$ENDIF}
+     , mormot.net.dns;
 
 { Name handling routines }
 
@@ -615,6 +617,8 @@ var
   msg: RawUtf8;
   c: ULONG;
 begin
+  ErrorEx := nil;
+  c := 0;
   if (err = LDAP_SUCCESS) then exit;
 
   if ((ldap_get_option(pld, LDAP_OPT_SERVER_ERROR, @ErrorEx)=LDAP_SUCCESS) and Assigned(ErrorEx)) then
