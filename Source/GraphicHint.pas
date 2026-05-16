@@ -30,7 +30,7 @@ interface
 
 uses
   LCLIntf, LCLType,
-  Controls, Classes, Graphics, Forms;
+  Controls, Classes, Graphics, Forms, Types;
 
 type
   TGraphicHintWindow = class(THintWindow)
@@ -80,7 +80,7 @@ begin
   if Copy(AHint, 1, 22) <> 'TLdapAttributeDataPtr:' then
   begin
     FInheritedPaint := true;
-    OffsetRect(Rect, Mouse.CursorPos.X - Rect.Right, Mouse.CursorPos.Y - Rect.Bottom);
+    Types.OffsetRect(Rect, Mouse.CursorPos.X - Rect.Right, Mouse.CursorPos.Y - Rect.Bottom);
     inherited;
     exit;
   end;
