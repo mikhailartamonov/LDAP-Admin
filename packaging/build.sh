@@ -36,7 +36,9 @@ if ! ls "$STATIC_DIR"/*.o >/dev/null 2>&1; then
   echo "==> Fetching mORMot2 static libraries"
   tmp7z="$(mktemp --suffix=.7z)"
   curl -fL --retry 3 -o "$tmp7z" "$STATIC_URL"
-  ( cd submodules/mORMot2 && rm -rf static && 7za x "$tmp7z" -ostatic >/dev/null )
+  SEVENZ="$(command -v 7za || command -v 7z || command -v 7zr)"
+  [ -n "$SEVENZ" ] || { echo "build.sh: need 7z/7za (install p7zip)"; exit 1; }
+  ( cd submodules/mORMot2 && rm -rf static && "$SEVENZ" x "$tmp7z" -ostatic >/dev/null )
   rm -f "$tmp7z"
 fi
 

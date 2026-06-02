@@ -35,17 +35,19 @@ jobs:
       # Installs a complete, correctly-configured Lazarus+FPC (official build),
       # avoiding the distro's split-package quirks.
       - name: Install Lazarus
-        uses: gcarreno/setup-lazarus@v3.3.2
+        uses: gcarreno/setup-lazarus@v3.4.1
         with:
           lazarus-version: stable
 
       - name: Build
         run: WIDGETSET="$WIDGETSET" packaging/build.sh
 
-      - name: Package (.deb + AppImage)
-        run: |
-          WIDGETSET="$WIDGETSET" packaging/build-deb.sh
-          WIDGETSET="$WIDGETSET" packaging/build-appimage.sh
+      - name: Package .deb
+        run: WIDGETSET="$WIDGETSET" packaging/build-deb.sh
+
+      - name: Package AppImage (best-effort)
+        continue-on-error: true
+        run: WIDGETSET="$WIDGETSET" packaging/build-appimage.sh
 
       - uses: actions/upload-artifact@v4
         with:
