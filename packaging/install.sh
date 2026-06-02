@@ -13,7 +13,8 @@
 set -eu
 
 REPO="mikhailartamonov/LDAP-Admin"
-API="https://api.github.com/repos/$REPO/releases/latest"
+# Newest release including pre-releases (/releases/latest hides pre-releases).
+API="https://api.github.com/repos/$REPO/releases?per_page=1"
 
 say()  { printf '\033[1;32m==>\033[0m %s\n' "$1"; }
 warn() { printf '\033[1;33m==>\033[0m %s\n' "$1" >&2; }

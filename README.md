@@ -1,7 +1,7 @@
 # LDAP Admin for Linux
 
 [![Build & Release](https://github.com/mikhailartamonov/LDAP-Admin/actions/workflows/build.yml/badge.svg)](https://github.com/mikhailartamonov/LDAP-Admin/actions/workflows/build.yml)
-[![Latest release](https://img.shields.io/github/v/release/mikhailartamonov/LDAP-Admin?sort=semver&color=1f6feb)](https://github.com/mikhailartamonov/LDAP-Admin/releases/latest)
+[![Latest release](https://img.shields.io/github/v/release/mikhailartamonov/LDAP-Admin?include_prereleases&sort=semver&color=1f6feb)](https://github.com/mikhailartamonov/LDAP-Admin/releases)
 [![Downloads](https://img.shields.io/github/downloads/mikhailartamonov/LDAP-Admin/total?color=2ea043)](https://github.com/mikhailartamonov/LDAP-Admin/releases)
 ![Platform](https://img.shields.io/badge/platform-Ubuntu%20%7C%20Arch%20%7C%20AppImage-8957e6)
 ![UI](https://img.shields.io/badge/UI-Qt5-41cd52?logo=qt&logoColor=white)
