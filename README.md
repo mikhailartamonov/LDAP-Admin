@@ -14,7 +14,9 @@ administration tool for LDAP directories (OpenLDAP, Samba AD). This fork exists
 to provide **ready-to-install packages** so you don't have to install Lazarus
 and compile anything by hand.
 
-> Tested primarily against **OpenLDAP**.
+> Tested against **OpenLDAP**. Active Directory / Samba AD *should* work too in
+> principle, but I don't run Windows myself, so that path is untested — reports
+> from anyone who does are very welcome.
 
 > **Heads-up / disclaimer.** I built and run this on my own machines only:
 > Ubuntu 26.04 (kernel `7.0.0-22-generic`) and Arch Linux (rolling). It has

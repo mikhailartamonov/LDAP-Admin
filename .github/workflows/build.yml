@@ -63,7 +63,9 @@ jobs:
     steps:
       - name: Install toolchain
         run: |
-          pacman -Syu --noconfirm --needed git base-devel lazarus-qt5 qt5pas openssl
+          # curl + p7zip are needed by build.sh to fetch the mORMot2 static
+          # libs; makepkg runs without -s so they must already be present.
+          pacman -Syu --noconfirm --needed git base-devel lazarus-qt5 qt5pas openssl curl p7zip
 
       - uses: actions/checkout@v4
         with:
