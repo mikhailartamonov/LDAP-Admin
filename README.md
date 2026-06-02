@@ -8,6 +8,11 @@
 > and something about mine doesn't work for you — open an issue. We're
 > engineers; we'll dig in together and figure out where the problem really
 > comes from. Don't be shy, colleagues — drop a line.
+>
+> Not a GitHub person? If it's a substantive question and I've gone quiet on
+> here, reach me on Telegram ([@DevOps0017](https://t.me/DevOps0017)) or by
+> email (mailtoartamonov@gmail.com). I'll be genuinely amazed someone did — but
+> I'll take it in good faith and try to patch whatever's wrong.
 
 A maintained Linux fork of [LDAP Admin](http://ldapadmin.org) — a client and
 administration tool for LDAP directories (OpenLDAP, Samba AD). This fork exists
