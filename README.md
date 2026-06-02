@@ -44,6 +44,14 @@ Ubuntu/Debian, `.pkg.tar.zst` via `pacman` on Arch, AppImage everywhere else).
 sudo apt install ./ldapadmin_*_amd64.deb
 ```
 
+Or add the APT repository (hosted on GitHub Pages) to get updates via `apt`:
+
+```sh
+echo "deb [trusted=yes] https://mikhailartamonov.github.io/LDAP-Admin/apt ./" \
+  | sudo tee /etc/apt/sources.list.d/ldapadmin.list
+sudo apt update && sudo apt install ldapadmin
+```
+
 ### Arch Linux (`.pkg.tar.zst`)
 
 ```sh

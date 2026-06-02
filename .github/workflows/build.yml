@@ -107,3 +107,48 @@ jobs:
         with:
           files: dist/*
           generate_release_notes: true
+
+  # --------------------------------------------------------------- Pages
+  # Publish a flat apt repository (from the .deb) to GitHub Pages, so users can
+  # `apt install ldapadmin` and get updates. Enable Pages once in the repo:
+  # Settings -> Pages -> Source: GitHub Actions.
+  pages:
+    needs: [ubuntu]
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: linux-deb-appimage
+          path: incoming
+
+      - name: Build flat apt repository
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends dpkg-dev apt-utils
+          mkdir -p site/apt
+          cp incoming/*.deb site/apt/
+          ( cd site/apt
+            dpkg-scanpackages -m . > Packages
+            gzip -9c Packages > Packages.gz
+            apt-ftparchive release . > Release )
+          cat > site/index.html <<'HTML'
+          <!doctype html><meta charset=utf-8><title>LDAP Admin for Linux</title>
+          <h1>LDAP Admin for Linux</h1>
+          <p>APT repository. Add it with:</p>
+          <pre>echo "deb [trusted=yes] https://mikhailartamonov.github.io/LDAP-Admin/apt ./" | sudo tee /etc/apt/sources.list.d/ldapadmin.list
+          sudo apt update &amp;&amp; sudo apt install ldapadmin</pre>
+          <p>See the <a href="https://github.com/mikhailartamonov/LDAP-Admin">repository</a> and its <a href="https://github.com/mikhailartamonov/LDAP-Admin/releases">releases</a>.</p>
+          HTML
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - id: deploy
+        uses: actions/deploy-pages@v4
