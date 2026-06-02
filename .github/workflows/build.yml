@@ -30,7 +30,10 @@ jobs:
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends \
-            libqt5pas1 libqt5pas-dev fakeroot file p7zip-full curl
+            libqt5pas1 libqt5pas-dev fakeroot file p7zip-full curl patchelf \
+            qtbase5-dev qttools5-dev-tools libqt5svg5
+          # linuxdeploy's Qt plugin (AppImage) needs qmake + the Qt5 platform
+          # plugins; libqt5pas alone doesn't pull them in.
 
       # Installs a complete, correctly-configured Lazarus+FPC (official build),
       # avoiding the distro's split-package quirks.
