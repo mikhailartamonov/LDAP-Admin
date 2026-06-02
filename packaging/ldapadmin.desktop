@@ -1,0 +1,16 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=LDAP Admin
+GenericName=LDAP directory client
+GenericName[ru]=Клиент каталога LDAP
+Comment=Browse and edit LDAP directories (OpenLDAP, Samba AD)
+Comment[ru]=Просмотр и редактирование каталогов LDAP (OpenLDAP, Samba AD)
+Exec=ldapadmin %f
+TryExec=ldapadmin
+Icon=ldapadmin
+Terminal=false
+Categories=Network;System;Utility;
+Keywords=LDAP;OpenLDAP;directory;AD;Samba;LDIF;
+StartupWMClass=LdapAdmin
+MimeType=application/x-ldif;

@@ -1,0 +1,102 @@
+name: Build & Release
+
+on:
+  push:
+    branches: [master]
+    tags: ['v*']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  WIDGETSET: qt5
+
+jobs:
+  # ---------------------------------------------------------------- Ubuntu
+  # Produces the .deb and the portable AppImage. Built against Ubuntu's own
+  # libraries so the .deb is ABI-correct, using the official Lazarus .debs
+  # (complete toolchain — no missing units like the distro's split packages).
+  ubuntu:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Runtime / link deps (Qt5 bindings, 7zip)
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends \
+            libqt5pas1 libqt5pas-dev fakeroot file p7zip-full curl
+
+      # Installs a complete, correctly-configured Lazarus+FPC (official build),
+      # avoiding the distro's split-package quirks.
+      - name: Install Lazarus
+        uses: gcarreno/setup-lazarus@v3.3.2
+        with:
+          lazarus-version: stable
+
+      - name: Build
+        run: WIDGETSET="$WIDGETSET" packaging/build.sh
+
+      - name: Package (.deb + AppImage)
+        run: |
+          WIDGETSET="$WIDGETSET" packaging/build-deb.sh
+          WIDGETSET="$WIDGETSET" packaging/build-appimage.sh
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: linux-deb-appimage
+          path: dist/*
+
+  # ----------------------------------------------------------------- Arch
+  # Produces a native pacman package using Arch's complete toolchain and the
+  # in-repo qt5pas. makepkg runs as a non-root build user.
+  arch:
+    runs-on: ubuntu-latest
+    container: archlinux:latest
+    steps:
+      - name: Install toolchain
+        run: |
+          pacman -Syu --noconfirm --needed git base-devel lazarus-qt5 qt5pas openssl
+
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Build package (makepkg)
+        run: |
+          set -e
+          useradd -m builder
+          cp packaging/PKGBUILD .
+          # Build the exact checked-out commit instead of a remote tag.
+          sed -i "s#^source=.*#source=(\"\$pkgname::git+file://$GITHUB_WORKSPACE\")#" PKGBUILD
+          git config --global --add safe.directory '*'
+          chown -R builder:builder "$GITHUB_WORKSPACE"
+          sudo -u builder makepkg -f --noconfirm --skipinteg
+          mkdir -p dist && cp *.pkg.tar.zst dist/
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: arch-pkg
+          path: dist/*
+
+  # -------------------------------------------------------------- Release
+  release:
+    needs: [ubuntu, arch]
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+      - name: Publish release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*
+          generate_release_notes: true

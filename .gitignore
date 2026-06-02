@@ -29,3 +29,9 @@ ppu/
 
 # Application bundle for Mac OS
 *.app/
+
+# Build output: the compiled binary and packaging artifacts
+/Source/LdapAdmin
+/Source/link*.res
+/dist/
+/.cache/

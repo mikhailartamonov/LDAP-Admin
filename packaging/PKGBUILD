@@ -1,0 +1,31 @@
+# Maintainer: Mikhail Artamonov <mailtoartamonov@gmail.com>
+pkgname=ldapadmin
+pkgver=0.0.0
+pkgrel=1
+pkgdesc="LDAP directory client and administration tool (OpenLDAP, Samba AD)"
+arch=('x86_64')
+url="https://github.com/mikhailartamonov/LDAP-Admin"
+license=('MIT')
+depends=('qt5pas' 'openssl')
+makedepends=('lazarus-qt5' 'git' 'p7zip' 'curl')
+# Build from a specific tag by default; the CI helper overrides the source to
+# build the exact checked-out commit.
+source=("$pkgname::git+https://github.com/mikhailartamonov/LDAP-Admin.git#tag=v$pkgver")
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$pkgname"
+  git describe --tags --always 2>/dev/null | sed 's/^v//;s/-/./g' || echo 0.0.0
+}
+
+build() {
+  cd "$srcdir/$pkgname"
+  # GCC_LIBPATH_FIX: Arch's gcc is newer than FPC 3.2.2 knows about, so point
+  # the linker at its runtime objects (crtbeginS.o &c.).
+  GCC_LIBPATH_FIX=1 WIDGETSET=qt5 ./packaging/build.sh
+}
+
+package() {
+  cd "$srcdir/$pkgname"
+  WIDGETSET=qt5 ./packaging/stage.sh "$pkgdir" /usr
+}

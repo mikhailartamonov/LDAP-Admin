@@ -3836,7 +3836,7 @@ initialization
   try
      FileExtension := TEMPLATE_EXT;
     Paths := GlobalConfig.ReadString('TemplateDir');
-    AddPath(ExtractFileDir(application.ExeName) + '\*.' + TEMPLATE_EXT);
+    AddPath(ExtractFileDir(application.ExeName) + PathDelim + '*.' + TEMPLATE_EXT);
   except
     on E: Exception do
       MessageDlg(E.Message, mtError, [mbOK], 0);

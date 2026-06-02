@@ -1,66 +1,127 @@
 # LDAP Admin for Linux
 
-## What it is
+A maintained Linux fork of [LDAP Admin](http://ldapadmin.org) — a client and
+administration tool for LDAP directories (OpenLDAP, Samba AD). This fork exists
+to provide **ready-to-install packages** so you don't have to install Lazarus
+and compile anything by hand.
 
-Linux port of free Windows LDAP Admin (http://ldapadmin.org), client and administration tool for LDAP directory management.
+> Tested primarily against **OpenLDAP**.
 
-## Status
+![Main window](docs/screenshots/main.png)
 
-Stable functions: 
-- Browsing and editing of LDAP directories
-- Recursive operations on directory trees (copy, move and delete)
-- Schema browsing
-- LDIF export and import
-- Password management (supports crypt, md5, sha, sha-crypt, samba)
+## Install
+
+### One-liner (Ubuntu & Arch)
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/mikhailartamonov/LDAP-Admin/master/packaging/install.sh | sh
+```
+
+The script detects your distribution, downloads the matching artifact from the
+[latest release](../../releases/latest) and installs it (`.deb` via `apt` on
+Ubuntu/Debian, `.pkg.tar.zst` via `pacman` on Arch, AppImage everywhere else).
+
+### Ubuntu / Debian (`.deb`)
+
+```sh
+# download ldapadmin_<version>_amd64.deb from the Releases page, then:
+sudo apt install ./ldapadmin_*_amd64.deb
+```
+
+### Arch Linux (`.pkg.tar.zst`)
+
+```sh
+# download the package from the Releases page, then:
+sudo pacman -U ldapadmin-*-x86_64.pkg.tar.zst
+```
+
+Or build it yourself from the bundled [`PKGBUILD`](packaging/PKGBUILD):
+
+```sh
+makepkg -si
+```
+
+### AppImage (any distro)
+
+```sh
+chmod +x LDAP-Admin-*.AppImage
+./LDAP-Admin-*.AppImage
+```
+
+After installing a package, launch it from your application menu or run
+`ldapadmin` from a terminal.
+
+## Features
+
+- Browse and edit LDAP directories
+- Recursive operations on directory trees (copy, move, delete)
+- Schema browser
+- LDIF export / import
+- Password management (crypt, md5, sha, sha-crypt, samba)
 - Template support
 - Binary attribute support
-- LDAP SSL/TLS support
- 
+- LDAP over SSL/TLS
 
-Untested functions: 
-- Management of Posix Groups and Accounts
-- Management of Samba Accounts
-- Postfix MTA Support
- 
+## Screenshots
 
-Disabled functions: 
-- Scripting
+| Main window | Connection manager |
+|---|---|
+| ![Main window](docs/screenshots/main.png) | ![Connection manager](docs/screenshots/connect.png) |
 
+## How packages are built
 
-## Downloads
-See [releases](../../releases)
+Everything is built on GitHub Actions — see
+[`.github/workflows/build.yml`](.github/workflows/build.yml):
 
+| Distro | Toolchain | Widgetset | Output |
+|--------|-----------|-----------|--------|
+| Ubuntu | official Lazarus 4.6 + FPC 3.2.2 | Qt5 | `.deb`, AppImage |
+| Arch   | `lazarus-qt5` + `qt5pas`          | Qt5 | `.pkg.tar.zst` |
 
-## Requirements
-- Lazarus, developed on version 4.4
-- compiler FPC 3.2+, developed on version 3.2.2
-- library libssl.so.1.1, libcrypto.so.1.1, for usign OpenSSL 1.1
-- library libssl.so.3, libcrypto.so.3, for usign OpenSSL 3
-- mORMot2 library
-- Linux desktop
+The UI uses the **Qt5** widgetset for a modern, native look (rounded window
+corners and proper theming on GNOME/KDE).
 
+Pushing a `v*` tag triggers a release with all three artifacts attached.
 
-## How to localize
-PLEASE DO NOT USE THE BUILT-IN FUNCTION IN THE MENU (.llf files)!
-The recommended way to locate in linux is as follows, 
-- create (if not exist) directory locale
-- resourcestrings are compiled into .po files if you enable i18n in the Lazarus IDE. Go to Project > Project Options > i18n > Enable i18n
-- copy file LdapAdmin.po to LdapAdmin.xx.po, where xx is two-letter language code
-  (en for English, ru for Russian,  de for Germany , ...)
-- translate string with Poedit, https://poedit.net/
+## Build from source
 
+Requirements: Lazarus 4.x, FPC 3.2.2, the mORMot2 submodule and Qt5 bindings
+(`libqt5pas-dev` on Debian/Ubuntu, `qt5pas` on Arch).
 
-## How to compile
-- install Lazarus from binaries - http://wiki.freepascal.org/Installing_Lazarus
-- git clone https://github.com/ibv/LDAP-Admin.git
-- cd LDAP-Admin
-- git submodule update --init --recursive   (If it's the first time you check-out a repo)
-- git submodule update --recursive --remote
-- in Lazarus IDE, menu - File -> Open -> "Source/LdapAdmin.lpi"
-- in Lazarus IDE, menu - Run -> F9 (run) or Ctrl+F9 (compile) or Shift+F9 (link) or "/usr/bin/lazbuild /path/to/LdapAdmin.lpi"
+```sh
+git clone https://github.com/mikhailartamonov/LDAP-Admin.git
+cd LDAP-Admin
+git submodule update --init --recursive
+./packaging/build.sh                 # builds Source/LdapAdmin
+```
 
+Build the packages from the compiled binary:
 
-## Further information
+```sh
+./packaging/build-deb.sh             # -> dist/ldapadmin_<ver>_amd64.deb
+./packaging/build-appimage.sh        # -> dist/LDAP-Admin-<ver>-x86_64.AppImage
+```
 
-For more information about it, please visit:
-> http://ivb.wz.cz/en/ldap.html
+### Compiling in the Lazarus IDE
+
+Open `Source/LdapAdmin.lpi`, make sure the `mormot2` package
+(`submodules/mORMot2/packages/lazarus/mormot2.lpk`) is registered, then build.
+
+## Configuration
+
+Connections and settings are stored per-user under
+`~/.config/LdapAdmin/`. Default templates live next to the binary in
+`/usr/lib/ldapadmin/`.
+
+## Localization
+
+Translations are compiled `.po`/`.mo` files (Russian, German, Polish included).
+To add a language, copy `Source/locale/LdapAdmin.po` to
+`LdapAdmin.<xx>.po`, translate it with [Poedit](https://poedit.net/) and place
+the resulting `.mo` next to the binary in `locale/`.
+
+## Credits
+
+- Original Windows application: <http://www.ldapadmin.org>
+- Linux port: <https://github.com/ibv/LDAP-Admin>
+- mORMot2 framework: <https://github.com/synopse/mORMot2>

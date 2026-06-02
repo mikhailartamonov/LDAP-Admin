@@ -260,9 +260,9 @@ begin
   if ModalResult = mrOk then with GlobalConfig do
   begin
     TemplateParser.Paths := TemplateList.Items.CommaText;
-    TemplateParser.AddPath(ExtractFileDir(application.ExeName) + '\*.' + TEMPLATE_EXT);
+    TemplateParser.AddPath(ExtractFileDir(application.ExeName) + PathDelim + '*.' + TEMPLATE_EXT);
     LanguageLoader.Paths := LanguageList.Items.CommaText;
-    LanguageLoader.AddPath(ExtractFileDir(application.ExeName) + '\*.' + LANG_EXT);
+    LanguageLoader.AddPath(ExtractFileDir(application.ExeName) + PathDelim + '*.' + LANG_EXT);
     WriteBool(rTemplateExtensions, cbTemplateExtensions.Checked);
     WriteBool(rTemplateAutoload, cbTemplateAutoload.Checked);
     WriteBool(rTemplateProperties, cbTemplateProperties.Checked);
