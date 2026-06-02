@@ -1,5 +1,14 @@
 # LDAP Admin for Linux
 
+[![Build & Release](https://github.com/mikhailartamonov/LDAP-Admin/actions/workflows/build.yml/badge.svg)](https://github.com/mikhailartamonov/LDAP-Admin/actions/workflows/build.yml)
+[![Latest release](https://img.shields.io/github/v/release/mikhailartamonov/LDAP-Admin?sort=semver&color=1f6feb)](https://github.com/mikhailartamonov/LDAP-Admin/releases/latest)
+[![Downloads](https://img.shields.io/github/downloads/mikhailartamonov/LDAP-Admin/total?color=2ea043)](https://github.com/mikhailartamonov/LDAP-Admin/releases)
+![Platform](https://img.shields.io/badge/platform-Ubuntu%20%7C%20Arch%20%7C%20AppImage-8957e6)
+![UI](https://img.shields.io/badge/UI-Qt5-41cd52?logo=qt&logoColor=white)
+![License](https://img.shields.io/badge/license-GPL--2.0-orange)
+
+**A no-nonsense LDAP directory client for Linux — packaged so it just installs.**
+
 > For about ten years I kept waiting for programmers to finally ship a
 > reasonably usable LDAP client for Linux. As usual, they never got around to
 > it — so I picked up what already existed and finished the job myself.
@@ -36,6 +45,8 @@ packaging is mine.
 > may vary. If it breaks for you, open an issue and we'll sort it out.
 
 ![Main window](docs/screenshots/main.png)
+
+---
 
 ## Install
 
@@ -104,6 +115,8 @@ After installing a package, launch it from your application menu or run
 |---|---|
 | ![Main window](docs/screenshots/main.png) | ![Connection manager](docs/screenshots/connect.png) |
 
+---
+
 ## How packages are built
 
 Everything is built on GitHub Actions — see
@@ -158,8 +171,12 @@ To add a language, copy `Source/locale/LdapAdmin.po` to
 `LdapAdmin.<xx>.po`, translate it with [Poedit](https://poedit.net/) and place
 the resulting `.mo` next to the binary in `locale/`.
 
+---
+
 ## Credits
 
 - Original Windows application: <http://www.ldapadmin.org>
 - Linux port: <https://github.com/ibv/LDAP-Admin>
 - mORMot2 framework: <https://github.com/synopse/mORMot2>
+
+Licensed under the **GNU GPL v2**, same as upstream LDAP Admin.
