@@ -47,6 +47,12 @@ fi
 install -d "$DESTDIR$PREFIX/bin"
 cat > "$DESTDIR$PREFIX/bin/ldapadmin" <<EOF
 #!/bin/sh
+# Force the X11 (xcb) Qt backend by default. Under the LCL Qt5 widgetset the
+# native Wayland plugin can't activate/raise windows ("Wayland does not support
+# QWindow::requestActivate()"), so launched from a Wayland app menu the window
+# never shows and it looks like the app didn't start. XWayland (xcb) is always
+# available and behaves correctly. Override by setting QT_QPA_PLATFORM yourself.
+export QT_QPA_PLATFORM="\${QT_QPA_PLATFORM:-xcb}"
 exec "$PREFIX/lib/ldapadmin/LdapAdmin" "\$@"
 EOF
 chmod 0755 "$DESTDIR$PREFIX/bin/ldapadmin"
