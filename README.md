@@ -2,7 +2,7 @@
 
 > For about ten years I kept waiting for programmers to finally ship a
 > reasonably usable LDAP client for Linux. As usual, they never got around to
-> it — so I built one myself.
+> it — so I picked up what already existed and finished the job myself.
 >
 > If you've also given up waiting on developers for a tool that never came —
 > and something about mine doesn't work for you — open an issue. We're
@@ -13,6 +13,13 @@ A maintained Linux fork of [LDAP Admin](http://ldapadmin.org) — a client and
 administration tool for LDAP directories (OpenLDAP, Samba AD). This fork exists
 to provide **ready-to-install packages** so you don't have to install Lazarus
 and compile anything by hand.
+
+To be clear: I didn't write this from scratch. I stood on other people's
+work — the original Windows application, the community Linux port, and a decade
+of bug reports filed by users — and did the unglamorous part: fixing what was
+broken and turning it into something you can actually install and use. Credit
+for the foundation goes to them (see [Credits](#credits)); the blame for the
+packaging is mine.
 
 > Tested against **OpenLDAP**. Active Directory / Samba AD *should* work too in
 > principle, but I don't run Windows myself, so that path is untested — reports
