@@ -56,18 +56,29 @@ mkdir -p "$APPDIR"
 
 # linuxdeploy wants the real ELF as the main executable (not the shell wrapper),
 # and resolves data files relative to it — so it must keep its app-dir siblings.
+mkdir -p "$ROOT/$OUTDIR"
+OUT_ABS="$ROOT/$OUTDIR/LDAP-Admin-${VERSION}-${ARCH_GNU}.AppImage"
 export APPIMAGE_EXTRACT_AND_RUN=1
-export OUTPUT="$OUTDIR/LDAP-Admin-${VERSION}-${ARCH_GNU}.AppImage"
+export OUTPUT="$OUT_ABS"
 export LD_LIBRARY_PATH="${LD_LIBRARY_PATH:-}"
 # Skip stripping: linuxdeploy's bundled strip chokes on newer ELF sections
 # (.relr.dyn) on bleeding-edge libraries, and the size win is marginal.
 export NO_STRIP=true
 
-"$LD" --appdir "$APPDIR" \
-  --executable "$APPDIR/usr/lib/ldapadmin/LdapAdmin" \
-  --desktop-file "$APPDIR/usr/share/applications/ldapadmin.desktop" \
-  --icon-file "$APPDIR/usr/share/icons/hicolor/32x32/apps/ldapadmin.png" \
-  "${PLUGIN_ARGS[@]}" \
-  --output appimage
+# Run from a scratch dir: if linuxdeploy ignores $OUTPUT it drops the AppImage
+# in the current directory, and we don't want it lost in the repo tree.
+workdir="$(mktemp -d)"
+( cd "$workdir" && "$LD" --appdir "$APPDIR" \
+    --executable "$APPDIR/usr/lib/ldapadmin/LdapAdmin" \
+    --desktop-file "$APPDIR/usr/share/applications/ldapadmin.desktop" \
+    --icon-file "$APPDIR/usr/share/icons/hicolor/32x32/apps/ldapadmin.png" \
+    "${PLUGIN_ARGS[@]}" \
+    --output appimage )
 
-echo "==> Built $OUTPUT"
+# Make sure the artifact ended up where we expect it.
+if [ ! -f "$OUT_ABS" ]; then
+  stray="$(find "$workdir" "$ROOT" -maxdepth 1 -name '*.AppImage' 2>/dev/null | head -1 || true)"
+  [ -n "$stray" ] && mv "$stray" "$OUT_ABS"
+fi
+[ -f "$OUT_ABS" ] || { echo "build-appimage.sh: no AppImage was produced" >&2; exit 1; }
+echo "==> Built $OUT_ABS"
