@@ -110,6 +110,12 @@ jobs:
         with:
           files: dist/*
           generate_release_notes: true
+          prerelease: true
+          body: |
+            ⚠️ **Early / alpha build — not battle-tested.** It compiles, packages
+            and launches, but has only been smoke-tested against OpenLDAP on the
+            author's own machines. Active Directory / Samba AD is untested. Treat
+            it as "works for me", not a finished 1.0 — bug reports welcome.
 
   # --------------------------------------------------------------- Pages
   # Publish a flat apt repository (from the .deb) to the `gh-pages` branch, so

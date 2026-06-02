@@ -6,6 +6,7 @@
 ![Platform](https://img.shields.io/badge/platform-Ubuntu%20%7C%20Arch%20%7C%20AppImage-8957e6)
 ![UI](https://img.shields.io/badge/UI-Qt5-41cd52?logo=qt&logoColor=white)
 ![License](https://img.shields.io/badge/license-GPL--2.0-orange)
+![Status](https://img.shields.io/badge/status-alpha-red)
 
 **A no-nonsense LDAP directory client for Linux — packaged so it just installs.**
 
@@ -39,10 +40,15 @@ packaging is mine.
 > principle, but I don't run Windows myself, so that path is untested — reports
 > from anyone who does are very welcome.
 
-> **Heads-up / disclaimer.** I built and run this on my own machines only:
-> Ubuntu 26.04 (kernel `7.0.0-22-generic`) and Arch Linux (rolling). It has
-> been tested *only* on my own laptops, so on a different setup your mileage
-> may vary. If it breaks for you, open an issue and we'll sort it out.
+> **Status: early alpha (0.x).** It compiles, packages and launches, but it has
+> not been seriously tested yet — only smoke-tested against OpenLDAP on my own
+> machines. This is explicitly **not** a polished 1.0; expect rough edges.
+>
+> **Disclaimer.** I built and run this on my own hardware only: Ubuntu 26.04
+> (kernel `7.0.0-22-generic`) and Arch Linux (rolling), tested *only* on my own
+> laptops. Active Directory / Samba AD is untested (I don't run Windows). On a
+> different setup your mileage may vary — if it breaks, open an issue and we'll
+> sort it out.
 
 ![Main window](docs/screenshots/main.png)
 
