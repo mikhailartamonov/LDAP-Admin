@@ -1,11 +1,25 @@
 # LDAP Admin for Linux
 
+> For about ten years I kept waiting for programmers to finally ship a
+> reasonably usable LDAP client for Linux. As usual, they never got around to
+> it — so I built one myself.
+>
+> If you've also given up waiting on developers for a tool that never came —
+> and something about mine doesn't work for you — open an issue. We're
+> engineers; we'll dig in together and figure out where the problem really
+> comes from. Don't be shy, colleagues — drop a line.
+
 A maintained Linux fork of [LDAP Admin](http://ldapadmin.org) — a client and
 administration tool for LDAP directories (OpenLDAP, Samba AD). This fork exists
 to provide **ready-to-install packages** so you don't have to install Lazarus
 and compile anything by hand.
 
 > Tested primarily against **OpenLDAP**.
+
+> **Heads-up / disclaimer.** I built and run this on my own machines only:
+> Ubuntu 26.04 (kernel `7.0.0-22-generic`) and Arch Linux (rolling). It has
+> been tested *only* on my own laptops, so on a different setup your mileage
+> may vary. If it breaks for you, open an issue and we'll sort it out.
 
 ![Main window](docs/screenshots/main.png)
 
@@ -79,7 +93,9 @@ Everything is built on GitHub Actions — see
 | Arch   | `lazarus-qt5` + `qt5pas`          | Qt5 | `.pkg.tar.zst` |
 
 The UI uses the **Qt5** widgetset for a modern, native look (rounded window
-corners and proper theming on GNOME/KDE).
+corners and proper theming on GNOME/KDE). It's built on Qt5 deliberately —
+Qt5 is the more stable, battle-tested binding, and I have no patience left to
+wait for the programmers to deliver a properly working Qt6 one.
 
 Pushing a `v*` tag triggers a release with all three artifacts attached.
 

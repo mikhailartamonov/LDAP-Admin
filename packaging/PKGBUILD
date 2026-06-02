@@ -7,6 +7,7 @@ arch=('x86_64')
 url="https://github.com/mikhailartamonov/LDAP-Admin"
 license=('MIT')
 depends=('qt5pas' 'openssl')
+options=('!debug')
 makedepends=('lazarus-qt5' 'git' 'p7zip' 'curl')
 # Build from a specific tag by default; the CI helper overrides the source to
 # build the exact checked-out commit.

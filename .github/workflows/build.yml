@@ -79,6 +79,9 @@ jobs:
           sed -i "s#^source=.*#source=(\"\$pkgname::git+file://$GITHUB_WORKSPACE\")#" PKGBUILD
           git config --global --add safe.directory '*'
           chown -R builder:builder "$GITHUB_WORKSPACE"
+          # makepkg runs as 'builder'; it needs its own safe.directory or git
+          # refuses the workspace ("dubious ownership").
+          sudo -u builder git config --global --add safe.directory '*'
           sudo -u builder makepkg -f --noconfirm --skipinteg
           mkdir -p dist && cp *.pkg.tar.zst dist/
 

@@ -59,6 +59,9 @@ mkdir -p "$APPDIR"
 export APPIMAGE_EXTRACT_AND_RUN=1
 export OUTPUT="$OUTDIR/LDAP-Admin-${VERSION}-${ARCH_GNU}.AppImage"
 export LD_LIBRARY_PATH="${LD_LIBRARY_PATH:-}"
+# Skip stripping: linuxdeploy's bundled strip chokes on newer ELF sections
+# (.relr.dyn) on bleeding-edge libraries, and the size win is marginal.
+export NO_STRIP=true
 
 "$LD" --appdir "$APPDIR" \
   --executable "$APPDIR/usr/lib/ldapadmin/LdapAdmin" \
