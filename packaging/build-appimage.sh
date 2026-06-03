@@ -54,6 +54,12 @@ mkdir -p "$APPDIR"
 # Lay out the usual /usr tree, then let linuxdeploy collect dependencies.
 "$ROOT/packaging/stage.sh" "$APPDIR" /usr
 
+# Inside the AppImage the package's absolute Exec (/usr/bin/ldapadmin) is wrong
+# and linuxdeploy rejects it; point the bundled desktop entry at the binary's
+# basename instead. (Only affects the copy inside the AppImage.)
+sed -i 's|^Exec=.*|Exec=LdapAdmin|; s|^TryExec=.*|TryExec=LdapAdmin|' \
+  "$APPDIR/usr/share/applications/ldapadmin.desktop"
+
 # linuxdeploy wants the real ELF as the main executable (not the shell wrapper),
 # and resolves data files relative to it — so it must keep its app-dir siblings.
 mkdir -p "$ROOT/$OUTDIR"
